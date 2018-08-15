@@ -150,10 +150,38 @@ public class ParallaxBackLayout extends FrameLayout {
     }
 
 
+    float mInitialMotionX;
+
+    float mInitialMotionY;
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
         if (!mEnable || !mBackgroundView.canGoBack()) {
             return false;
+        }
+        //todo 这段switch控制是否触发滑动返回
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                final float x = event.getX();
+                final float y = event.getY();
+                mInitialMotionX = x;
+                mInitialMotionY = y;
+
+
+                break;
+            }
+
+            case MotionEvent.ACTION_MOVE: {
+                final float x = event.getX();
+                final float y = event.getY();
+                final float adx = Math.abs(x - mInitialMotionX);
+                final float ady = Math.abs(y - mInitialMotionY);
+                final int slop = mDragHelper.getTouchSlop();
+
+                if (adx > slop && ady > adx) {
+                    mDragHelper.cancel();
+                    return false;
+                }
+            }
         }
         try {
             return mDragHelper.shouldInterceptTouchEvent(event);
