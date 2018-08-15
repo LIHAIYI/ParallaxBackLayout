@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.widget.FrameLayout;
 
+import com.github.anzewei.parallaxbacklayout.R;
 import com.github.anzewei.parallaxbacklayout.ViewDragHelper;
 import com.github.anzewei.parallaxbacklayout.transform.CoverTransform;
 import com.github.anzewei.parallaxbacklayout.transform.ITransform;
@@ -584,7 +585,7 @@ public class ParallaxBackLayout extends FrameLayout {
             if (mScrollPercent >= 0.999f) {
                 if (!mSwipeHelper.isFinishing()) {
                     mSwipeHelper.finish();
-                    mSwipeHelper.overridePendingTransition(0, 0);
+                    mSwipeHelper.overridePendingTransition(0, R.anim.parallax_exit);
                 }
             }
         }
