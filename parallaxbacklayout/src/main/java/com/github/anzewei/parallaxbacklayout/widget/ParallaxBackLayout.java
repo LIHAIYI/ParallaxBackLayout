@@ -178,6 +178,12 @@ public class ParallaxBackLayout extends FrameLayout {
                 final int slop = mDragHelper.getTouchSlop();
 
                 if (adx > slop && ady > adx) {
+                    //修复 当列表滑动时容易触发滑动返回
+                    mDragHelper.cancel();
+                    return false;
+                }
+                if (mEdgeFlag == EDGE_LEFT && (x - mInitialMotionX < 0)) {
+                    //修复 当viewpager的position=0时无法滑动
                     mDragHelper.cancel();
                     return false;
                 }
